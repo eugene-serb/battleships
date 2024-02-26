@@ -15,6 +15,11 @@ export default class Player {
         }
     }
 
+    clear() {
+        this.map = new Map(10, 10)
+        this.ships = []
+    }
+
     getUntouchedCells() {
         let cells = []
         
@@ -29,7 +34,7 @@ export default class Player {
         return cells
     }
 
-    isDead() {
+    isLost() {
         return this.ships.every((ship) => ship.isDead)
     }
 
@@ -46,6 +51,25 @@ export default class Player {
         }
 
         return data_map
+    }
+
+    placeShipsRandomly() {
+        this.clear()
+
+        const ship_sizes = [4,3,3,2,2,2,1,1,1,1]
+
+        for (let size in ship_sizes) {
+            let ship_created = false
+
+            while (!ship_created) {
+            let orient = parseInt(Math.random() * 2)
+
+            let y = parseInt(Math.random() * 10)
+            let x = parseInt(Math.random() * 10)
+
+            ship_created = this.createShip(y, x, size, orient)
+            }
+        }
     }
 
     createShip(y, x, size, orientation) {
