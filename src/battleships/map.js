@@ -12,10 +12,10 @@ export default class Map {
   createMap() {
     const map = [];
 
-    for (let y = 0; y < this.width; y++) {
+    for (let y = 0; y < this.height; y++) {
       const row = [];
 
-      for (let x = 0; x < this.height; x++) {
+      for (let x = 0; x < this.width; x++) {
         const cell = new Cell(x, y);
         row.push(cell);
       }
