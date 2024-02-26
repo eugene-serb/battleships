@@ -15,7 +15,38 @@ export default class Player {
         }
     }
 
-    
+    getUntouchedCells() {
+        let cells = []
+        
+        for (let row of this.map) {
+            for (let cell of row) {
+                if (cell.type == 'sea' || cell.type == 'ship') {
+                    cells.push(cell)
+                }
+            }
+        }
+
+        return cells
+    }
+
+    isDead() {
+        return this.ships.every((ship) => ship.isDead)
+    }
+
+    getMergedMap() {
+        const data_map = []
+
+        for (let row of this.map) {
+            const new_row = []
+            for (let cell of row) {
+                let value = this.cell_names[cell.type]
+                new_row.push(value)
+            }
+            data_map.push(new_row)
+        }
+
+        return data_map
+    }
 
     createShip(y, x, size, orientation) {
         if (!this.validShipPosition(y, x, size, orientation)) {
