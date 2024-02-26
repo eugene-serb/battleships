@@ -3,9 +3,13 @@
 import Player from '../src/battleships/player';
 
 describe('Player class test', () => {
-  test('standart cell type is equal to sea', () => {
+  test('player loses when all ships is dead', () => {
     const player = new Player();
+    player.placeShipsRandomly();
 
-    expect(cell.type).toEqual('sea');
+    for (let ship of player.ships) {
+      ship.isDead = true;
+    }
+    expect(player.isLost()).toEqual(true);
   });
 });
