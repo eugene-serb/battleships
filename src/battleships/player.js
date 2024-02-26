@@ -23,7 +23,7 @@ export default class Player {
     getUntouchedCells() {
         let cells = []
         
-        for (let row of this.map) {
+        for (let row of this.map.map) {
             for (let cell of row) {
                 if (cell.type == 'sea' || cell.type == 'ship') {
                     cells.push(cell)
@@ -62,10 +62,10 @@ export default class Player {
             let ship_created = false
 
             while (!ship_created) {
-            let orient = parseInt(Math.random() * 2)
+            const orient = parseInt(Math.random() * 2)
 
-            let y = parseInt(Math.random() * 10)
-            let x = parseInt(Math.random() * 10)
+            const y = parseInt(Math.random() * 10)
+            const x = parseInt(Math.random() * 10)
 
             ship_created = this.createShip(y, x, size, orient)
             }
