@@ -7,12 +7,6 @@ export default class Player {
   constructor() {
     this.map = new Map(10, 10);
     this.ships = [];
-    this.cell_names = {
-      sea: 0,
-      'sea-hit': 1,
-      ship: 2,
-      'ship-hit': 3,
-    };
   }
 
   clear() {
@@ -36,21 +30,6 @@ export default class Player {
 
   isLost() {
     return this.ships.every((ship) => ship.isDead);
-  }
-
-  getMergedMap() {
-    const data_map = [];
-
-    for (let row of this.map) {
-      const new_row = [];
-      for (let cell of row) {
-        let value = this.cell_names[cell.type];
-        new_row.push(value);
-      }
-      data_map.push(new_row);
-    }
-
-    return data_map;
   }
 
   placeShipsRandomly() {
