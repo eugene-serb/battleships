@@ -2,7 +2,7 @@
 
 import './style.css';
 
-import Player from '@/game/Player.js';
+import Player from '@/game/player.js';
 import Drawer from '@/game/drawer.js';
 import getMergedMap from '@/game/converter';
 
