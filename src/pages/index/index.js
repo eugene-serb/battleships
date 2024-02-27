@@ -1,7 +1,10 @@
 'use strict';
 
 import './style.css';
-import Drawer from '@/battleships/drawer.js';
+
+import Player from '@/game/player.js';
+import Drawer from '@/game/drawer.js';
+import getMergedMap from '@/game/converter';
 
 const userConfig = {
   0: {
@@ -34,29 +37,22 @@ const computerConfig = {
   },
 };
 
-const map = [
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
-  [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
-  [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
-  [3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-  [3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-  [3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-];
-
 function handle(x, y) {
   console.log('x', x);
   console.log('y', y);
 }
 
-let userField = document.getElementById('user-field');
-let rivalField = document.getElementById('rival-field');
+const userField = document.getElementById('user-field');
+const rivalField = document.getElementById('rival-field');
+
+const player = new Player();
+const computer = new Player();
 
 const userDrawer = new Drawer(userField, userConfig);
-let rivalDrawer = new Drawer(rivalField, computerConfig);
+const rivalDrawer = new Drawer(rivalField, computerConfig);
 
-userDrawer.draw(map);
-rivalDrawer.draw(map);
+console.log('player', getMergedMap(player.map.value));
+console.log('computer', getMergedMap(computer.map.value));
+
+userDrawer.draw(getMergedMap(player.map.value));
+rivalDrawer.draw(getMergedMap(computer.map.value));
