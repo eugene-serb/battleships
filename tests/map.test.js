@@ -1,6 +1,6 @@
 'use strict';
 
-import Map from '../src/battleships/map';
+import Map from '@/game/map';
 
 describe('Map test', () => {
   test('New map contains all rows and columns', () => {

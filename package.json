@@ -17,7 +17,7 @@
     "url": "git+https://github.com/eugene-serb/battleships.git"
   },
   "bugs": {
-    "url": "https://github.com/eugene-serb/battleships/issues"
+    "url": "https://github.com/eugene-serb/game/issues"
   },
   "private": "true",
   "scripts": {

@@ -1,6 +1,6 @@
 'use strict';
 
-import Cell from '@/battleships/cell.js';
+import Cell from '@/game/cell.js';
 
 class Map {
   constructor(width, height) {
