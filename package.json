@@ -17,9 +17,10 @@
     "url": "git+https://github.com/eugene-serb/battleships.git"
   },
   "bugs": {
-    "url": "https://github.com/eugene-serb/game/issues"
+    "url": "https://github.com/eugene-serb/battleships/issues"
   },
   "private": "true",
+  "main": "index.js",
   "scripts": {
     "start": "webpack --mode development --watch",
     "dev": "webpack-dev-server --mode development --open",
