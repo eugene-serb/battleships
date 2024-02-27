@@ -1,238 +1,40 @@
 <!doctype html>
 <html lang="en-us" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <title>Battleships</title>
 
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex, nofollow" />
-    <meta name="keywords" content="Battleships" />
-    <meta name="description" content="Battleships game. Let's have a fun!" />
+<head>
+  <title>Battleships</title>
 
-    <link rel="icon" type="image/x-icon" href="./img/favicon.ico" />
-    <link rel="icon" type="image/png" sizes="16x16" href="./img/favicon-16x16.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="./img/android-chrome-192x192.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="./img/android-chrome-512x512.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="./img/apple-touch-icon.png" />
-    <link rel="manifest" href="./site.webmanifest" />
-    <link rel="canonical" href="https://eugene-serb.github.io/battleships/" />
-  </head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="keywords" content="Battleships" />
+  <meta name="description" content="Battleships game. Let's have a fun!" />
 
-  <body>
-    <main class="container">
-      <h1>Battleships Game</h1>
-      <div class="battlefields">
-        <div class="field user-field">
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell ship"></div>
-          <div class="cell ship"></div>
-          <div class="cell ship"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea-hit"></div>
-          <div class="cell ship"></div>
-          <div class="cell sea-hit"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell ship-hit"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea-hit"></div>
-          <div class="cell ship"></div>
-          <div class="cell sea-hit"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-        </div>
-        <div class="field rival-field">
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea-hit"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-          <div class="cell sea"></div>
-        </div>
+  <link rel="icon" type="image/x-icon" href="./img/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="16x16" href="./img/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="./img/android-chrome-192x192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="./img/android-chrome-512x512.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./img/apple-touch-icon.png" />
+  <link rel="manifest" href="./site.webmanifest" />
+  <link rel="canonical" href="https://eugene-serb.github.io/battleships/" />
+</head>
+
+<body>
+  <main class="container">
+    <h1>Battleships Game</h1>
+    <div class="battlefields">
+      <div id="user-field" class="field user-field">
       </div>
-      <div class="button-container">
-        <button id="restart">Restart</button>
+      <div id="rival-field" class="field rival-field">
       </div>
-    </main>
-    <script src="index.js"></script>
-  </body>
+    </div>
+    <div class="button-container">
+      <button id="restart">Restart</button>
+    </div>
+  </main>
+  <script src="index.js"></script>
+</body>
+
 </html>
