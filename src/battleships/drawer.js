@@ -1,3 +1,5 @@
+'use strict';
+
 class Drawer {
   constructor(containerField, config) {
     this.containerField = containerField;

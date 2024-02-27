@@ -1,6 +1,7 @@
 'use strict';
 
 import './style.css';
+
 import Drawer from '@/battleships/drawer.js';
 
 const userConfig = {

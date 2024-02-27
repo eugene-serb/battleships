@@ -1,25 +1,19 @@
 'use strict';
 
-import Map from './map.js';
-import Ship from './ship.js';
+import Map from '@/battleships/map.js';
+import Ship from '@/battleships/ship.js';
 
-export default class Player {
+class Player {
   constructor() {
-    this.map = new Map(10, 10);
-    this.ships = [];
-  }
-
-  clear() {
-    this.map = new Map(10, 10);
-    this.ships = [];
+    this.#init();
   }
 
   getUntouchedCells() {
-    let cells = [];
+    const cells = [];
 
-    for (let row of this.map.map) {
+    for (let row of this.map.value) {
       for (let cell of row) {
-        if (cell.type == 'sea' || cell.type == 'ship') {
+        if (!cell.isHit) {
           cells.push(cell);
         }
       }
@@ -32,40 +26,21 @@ export default class Player {
     return this.ships.every((ship) => ship.isDead);
   }
 
-  placeShipsRandomly() {
-    this.clear();
-
-    const ship_sizes = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
-
-    for (let size in ship_sizes) {
-      let ship_created = false;
-
-      while (!ship_created) {
-        const orient = parseInt(Math.random() * 2);
-
-        const y = parseInt(Math.random() * 10);
-        const x = parseInt(Math.random() * 10);
-
-        ship_created = this.createShip(y, x, size, orient);
-      }
-    }
-  }
-
-  createShip(y, x, size, orientation) {
+  #createShip(y, x, size, orientation) {
     if (!this.validShipPosition(y, x, size, orientation)) {
       return false;
     }
 
-    let ship_cells = [];
+    let shipCells = [];
 
     for (let i = 0; i < size; i++) {
-      let cell = this.map.map[y][x];
-      cell.type = 'ship';
-      ship_cells.push(cell);
+      let cell = this.map.value[y][x];
+      cell.isHit = 'ship';
+      shipCells.push(cell);
       orientation ? y++ : x++;
     }
 
-    const ship = new Ship(ship_cells);
+    const ship = new Ship(shipCells);
     this.ships.push(ship);
 
     return true;
@@ -73,22 +48,23 @@ export default class Player {
 
   validShipPosition(y, x, size, orientation) {
     // orientation - 0 horizontal, 1 vertical
-    const vertical_size = orientation ? size - 1 : 0;
-    const horizontal_size = orientation ? 0 : size - 1;
+    const verticalSize = orientation ? size - 1 : 0;
+    const horizontalSize = orientation ? 0 : size - 1;
 
-    if (y + vertical_size > 9 || x + horizontal_size > 9) {
+    if (y + verticalSize > 9 || x + horizontalSize > 9) {
       return false;
     }
 
     let left = Math.max(0, x - 1);
-    const right = Math.min(x + 1 + horizontal_size, 9);
+    const right = Math.min(x + 1 + horizontalSize, 9);
 
     let top = Math.max(0, y - 1);
-    const bottom = Math.min(y + 1 + vertical_size, 9);
+    const bottom = Math.min(y + 1 + verticalSize, 9);
 
     for (top; top <= bottom; top++) {
       for (left; left <= right; left++) {
-        const cell = this.map.map[top][left];
+        const cell = this.map.value[top][left];
+
         if (cell.type != 'sea') {
           return false;
         }
@@ -97,4 +73,30 @@ export default class Player {
 
     return true;
   }
+
+  #placeShipsRandomly() {
+    const ship_sizes = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
+
+    for (let size in ship_sizes) {
+      let shipCreated = false;
+
+      while (!shipCreated) {
+        const orient = parseInt(Math.random() * 2);
+
+        const y = parseInt(Math.random() * 10);
+        const x = parseInt(Math.random() * 10);
+
+        shipCreated = this.#createShip(y, x, size, orient);
+      }
+    }
+  }
+
+  #init() {
+    this.map = new Map(10, 10);
+    this.ships = [];
+
+    this.#placeShipsRandomly();
+  }
 }
+
+export default Player;

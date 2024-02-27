@@ -1,21 +1,22 @@
 'use strict';
 
-import Cell from './cell.js';
+import Cell from '@/battleships/cell.js';
 
-export default class Map {
+class Map {
   constructor(width, height) {
     this.width = width;
     this.height = height;
-    this.map = this.createMap();
+
+    this.value = this.#createMap(this.width, this.height);
   }
 
-  createMap() {
+  #createMap(width, height) {
     const map = [];
 
-    for (let y = 0; y < this.height; y++) {
+    for (let y = 0; y < height; y++) {
       const row = [];
 
-      for (let x = 0; x < this.width; x++) {
+      for (let x = 0; x < width; x++) {
         const cell = new Cell(x, y);
         row.push(cell);
       }
@@ -26,3 +27,5 @@ export default class Map {
     return map;
   }
 }
+
+export default Map;
