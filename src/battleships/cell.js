@@ -1,6 +1,6 @@
 'use strict';
 
-export default class Cell {
+class Cell {
   constructor(x, y, type = 'sea') {
     this.x = x;
     this.y = y;
@@ -8,3 +8,5 @@ export default class Cell {
     this.isHit = false;
   }
 }
+
+export default Cell;

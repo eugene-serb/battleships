@@ -1,6 +1,6 @@
 'use strict';
 
-export default class Ship {
+class Ship {
   constructor(cells) {
     this.cells = cells;
     this.isDead = false;
@@ -12,3 +12,5 @@ export default class Ship {
     }
   }
 }
+
+export default Ship;

@@ -1,26 +1,32 @@
 'use strict';
 
-const cell_names = {
+const cellNames = {
   sea: 0,
   'sea-hit': 1,
   ship: 2,
   'ship-hit': 3,
 };
 
-export default function getMergedMap(map, hidden = false) {
-  const data_map = [];
+function getMergedMap(map, hidden = false) {
+  const dataMap = [];
 
   for (let row of map) {
-    const new_row = [];
+    const newRow = [];
+
     for (let cell of row) {
-      let value = cell_names[cell.type];
+      let value = cellNames[cell.type];
+
       if (hidden && value == 2) {
         value = 0;
       }
-      new_row.push(value);
+
+      newRow.push(value);
     }
-    data_map.push(new_row);
+
+    dataMap.push(newRow);
   }
 
-  return data_map;
+  return dataMap;
 }
+
+export default getMergedMap;
