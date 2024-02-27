@@ -6,7 +6,7 @@ import Drawer from '@/battleships/drawer.js'
 const config = {
   0: {
     class: 'cell sea',
-    handle: () => void{},
+    handle: () => void {},
   },
   1: {
     class: 'cell sea-hit',
