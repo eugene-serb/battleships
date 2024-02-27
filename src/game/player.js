@@ -1,7 +1,7 @@
 'use strict';
 
-import Map from '@/battleships/map.js';
-import Ship from '@/battleships/ship.js';
+import Map from '@/game/map.js';
+import Ship from '@/game/ship.js';
 
 class Player {
   constructor() {

@@ -1,6 +1,6 @@
 'use strict';
 
-import Cell from '../src/battleships/cell';
+import Cell from '@/game/cell';
 
 describe('Cell test', () => {
   test('Standard cell type is equal to sea', () => {

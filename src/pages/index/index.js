@@ -2,9 +2,9 @@
 
 import './style.css';
 
-import Player from '@/battleships/Player.js';
-import Drawer from '@/battleships/drawer.js';
-import getMergedMap from '@/battleships/converter';
+import Player from '@/game/player.js';
+import Drawer from '@/game/drawer.js';
+import getMergedMap from '@/game/converter';
 
 const userConfig = {
   0: {

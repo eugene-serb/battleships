@@ -20,6 +20,7 @@
     "url": "https://github.com/eugene-serb/battleships/issues"
   },
   "private": "true",
+  "main": "index.js",
   "scripts": {
     "start": "webpack --mode development --watch",
     "dev": "webpack-dev-server --mode development --open",
