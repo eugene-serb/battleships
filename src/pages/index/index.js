@@ -3,10 +3,25 @@
 import './style.css';
 import Drawer from '@/battleships/drawer.js';
 
-const config = {
+const userConfig = {
   0: {
     class: 'cell sea',
-    handle: () => void {},
+  },
+  1: {
+    class: 'cell sea-hit',
+  },
+  2: {
+    class: 'cell ship',
+  },
+  3: {
+    class: 'cell ship-hit',
+  },
+};
+
+const computerConfig = {
+  0: {
+    class: 'cell sea',
+    handle: handle,
   },
   1: {
     class: 'cell sea-hit',
@@ -32,15 +47,16 @@ const map = [
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
 
-function handle(e) {
-  console.log(e);
+function handle(x, y) {
+  console.log('x', x);
+  console.log('y', y);
 }
 
 let userField = document.getElementById('user-field');
 let rivalField = document.getElementById('rival-field');
 
-const userDrawer = new Drawer(userField, config);
-let rivalDrawer = new Drawer(rivalField, config, handle);
+const userDrawer = new Drawer(userField, userConfig);
+let rivalDrawer = new Drawer(rivalField, computerConfig);
 
 userDrawer.draw(map);
 rivalDrawer.draw(map);

@@ -5,15 +5,20 @@ class Drawer {
   }
 
   draw(map) {
-    for (const row of map) {
-      for (const rowElement of row) {
-        let cell = document.createElement('div');
-        this.config[rowElement]['class'].split(' ').forEach((cellClass) => {
-          cell.classList.add(cellClass);
+    for (let y = 0; y < map.length; y++) {
+      for (let x = 0; x < map[y].length; x++) {
+        const el = map[y][x];
+
+        const cell = document.createElement('div');
+
+        this.config[el].class.split(' ').forEach((className) => {
+          cell.classList.add(className);
         });
-        if (rowElement === 0 && this.config[0]['handle']) {
-          cell.addEventListener('click', this.config[rowElement]['handle']);
+
+        if (this.config[el].handle) {
+          cell.addEventListener('click', () => this.config[el].handle(x, y));
         }
+
         this.containerField.appendChild(cell);
       }
     }
