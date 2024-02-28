@@ -5,6 +5,7 @@ import './style.css';
 import Player from '@/game/player.js';
 import Drawer from '@/game/drawer.js';
 import getMergedMap from '@/game/converter';
+import attack from '@/battleships/attack';
 
 const userConfig = {
   0: {
@@ -37,11 +38,6 @@ const computerConfig = {
   },
 };
 
-function handle(x, y) {
-  console.log('x', x);
-  console.log('y', y);
-}
-
 const userField = document.getElementById('user-field');
 const rivalField = document.getElementById('rival-field');
 
@@ -56,3 +52,11 @@ console.log('computer', getMergedMap(computer.map.value));
 
 userDrawer.draw(getMergedMap(player.map.value));
 rivalDrawer.draw(getMergedMap(computer.map.value));
+
+function handle(x, y) {
+  console.log('x', x);
+  console.log('y', y);
+  attack(computer, y, x);
+  userDrawer.draw(getMergedMap(player.map.value));
+  rivalDrawer.draw(getMergedMap(computer.map.value));
+}

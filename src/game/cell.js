@@ -7,6 +7,10 @@ class Cell {
     this.type = type;
     this.isHit = false;
   }
+
+  changeType() {
+    this.type = this.type + '-hit';
+  }
 }
 
 export default Cell;
