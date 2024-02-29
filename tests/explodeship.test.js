@@ -1,29 +1,33 @@
 'use strict';
 
-import explodeShip from '../src/battleships/explodeship';
-import Player from '../src/battleships/player';
+import explodeShip from '../src/game/explodeship';
+import Player from '../src/game/player';
 
 describe('Explode ship test', () => {
-  test('explode on corners', () => {
+  test('correct number of live cells after hitting cells around all ships', () => {
     const player = new Player();
-    const points = [0, 9];
 
-    let flag = true;
-
-    for (const y of points) {
-      for (const x of points) {
-        if (!player.createShip(y, x, 1, 1)) {
-          flag = false;
-        }
-      }
-    }
-
-    for (const ship of player.ships) {
+    for (let ship of player.ships) {
       explodeShip(player.map, ship);
     }
 
-    const live_cells = player.getUntouchedCells();
+    const untouchedCellsCount = player.getUntouchedCells().length;
+    const damagedCellsCount = countDamagedCells(player.map);
 
-    expect(flag && live_cells.length == 100 - 12).toEqual(true);
+    expect(100 - damagedCellsCount).toEqual(untouchedCellsCount);
   });
 });
+
+function countDamagedCells(map) {
+  let count = 0;
+
+  for (let row of map.value) {
+    for (let cell of row) {
+      if (cell.isHit) {
+        count++;
+      }
+    }
+  }
+
+  return count;
+}

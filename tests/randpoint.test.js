@@ -1,22 +1,22 @@
 'use strict';
 
-import getRandomPoint from '../src/battleships/getrandompoint';
-import Player from '../src/battleships/player';
+import getRandomCell from '../src/game/getrandomcell';
+import Player from '../src/game/player';
 
 describe('random point test', () => {
   test('random point should contain only sea and ship cells', () => {
-    const player = new Player();
-    player.placeShipsRandomly();
-    
-    const flag = true
-
+    let flag = true;
+    let player = new Player();
     for (let i = 0; i < 100; i++) {
-      let cell = getRandomPoint(player);
+      let cell = getRandomCell(player);
+
       if (!(cell.type == 'sea' || cell.type == 'ship')) {
-        flag = false
+        flag = false;
+
+        cell.type = 'sea-hit';
       }
     }
-    
-    expect(flag).toEqual(true);
+
+    expect(flag).toBe(true);
   });
 });
