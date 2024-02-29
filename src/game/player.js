@@ -5,6 +5,7 @@ import Ship from '@/game/ship.js';
 
 class Player {
   constructor() {
+    this.count = 0;
     this.#init();
   }
 
@@ -28,24 +29,16 @@ class Player {
 
   validShipPosition(y, x, size, orientation) {
     // orientation - 0 horizontal, 1 vertical
-    const verticalSize = orientation ? size - 1 : 0;
-    const horizontalSize = orientation ? 0 : size - 1;
+    const verticalSize = orientation ? size : 1;
+    const horizontalSize = orientation ? 1 : size;
 
     if (y + verticalSize > 9 || x + horizontalSize > 9) {
       return false;
     }
 
-    let left = Math.max(0, x - 1);
-    const right = Math.min(x + 1 + horizontalSize, 9);
-
-    let top = Math.max(0, y - 1);
-    const bottom = Math.min(y + 1 + verticalSize, 9);
-
-    for (top; top <= bottom; top++) {
-      for (left; left <= right; left++) {
-        const cell = this.map.value[top][left];
-
-        if (cell.type !== 'sea') {
+    for (let dy = y - 1; dy < y + 1 + verticalSize; dy++) {
+      for (let dx = x - 1; dx < x + 1 + horizontalSize; dx++) {
+        if (dy >= 0 && dy < 10 && dx >= 0 && dx < 10 && this.map.value[dy][dx].type != 'sea') {
           return false;
         }
       }
@@ -77,7 +70,7 @@ class Player {
   #placeShipsRandomly() {
     const shipSizes = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
 
-    for (let size in shipSizes) {
+    for (let size of shipSizes) {
       let shipCreated = false;
 
       while (!shipCreated) {
