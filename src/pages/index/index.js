@@ -5,7 +5,7 @@ import './style.css';
 import Player from '@/game/player.js';
 import Drawer from '@/game/drawer.js';
 import getMergedMap from '@/game/converter';
-import attack from '@/battleships/attack';
+import attack from '@/game/attack';
 
 const userConfig = {
   0: {
@@ -47,16 +47,17 @@ const computer = new Player();
 const userDrawer = new Drawer(userField, userConfig);
 const rivalDrawer = new Drawer(rivalField, computerConfig);
 
-console.log('player', getMergedMap(player.map.value));
-console.log('computer', getMergedMap(computer.map.value));
-
-userDrawer.draw(getMergedMap(player.map.value));
-rivalDrawer.draw(getMergedMap(computer.map.value));
+function draw() {
+  userDrawer.draw(getMergedMap(player.map.value));
+  rivalDrawer.draw(getMergedMap(computer.map.value, true));
+}
 
 function handle(x, y) {
   console.log('x', x);
   console.log('y', y);
+
   attack(computer, y, x);
-  userDrawer.draw(getMergedMap(player.map.value));
-  rivalDrawer.draw(getMergedMap(computer.map.value));
+  draw();
 }
+
+draw()

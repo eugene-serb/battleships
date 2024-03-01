@@ -1,10 +1,14 @@
 'use strict';
 
 const cellNames = {
-  sea: 0,
-  'sea-hit': 1,
-  ship: 2,
-  'ship-hit': 3,
+  sea: {
+    0: 0,
+    1: 1,
+  },
+  ship: {
+    0: 2,
+    1: 3
+  }
 };
 
 function getMergedMap(map, hidden = false) {
@@ -14,9 +18,9 @@ function getMergedMap(map, hidden = false) {
     const newRow = [];
 
     for (let cell of row) {
-      let value = cellNames[cell.type];
+      let value = cellNames[cell.type][Number(cell.isHit)];
 
-      if (hidden && value == 2) {
+      if (hidden && value === 2) {
         value = 0;
       }
 
