@@ -7,8 +7,8 @@ const cellNames = {
   },
   ship: {
     0: 2,
-    1: 3
-  }
+    1: 3,
+  },
 };
 
 function getMergedMap(map, hidden = false) {

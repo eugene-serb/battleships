@@ -60,4 +60,4 @@ function handle(x, y) {
   draw();
 }
 
-draw()
+draw();
