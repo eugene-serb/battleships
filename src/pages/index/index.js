@@ -5,9 +5,9 @@ import './style.css';
 import Player from '@/game/player.js';
 import Drawer from '@/game/drawer.js';
 import getMergedMap from '@/game/converter';
-import attack from '@/battleships/attack';
 import attack from '@/game/attack';
-import computerHandler from '../../battleships/computerHandler';
+import attack from '@/game/attack';
+import computerHandler from '@game/computerHandler';
 
 const userConfig = {
   0: {
