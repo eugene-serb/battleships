@@ -10,7 +10,6 @@ function computerHandler(rival) {
       attackResult = attack(rival, cellForAttack.y, cellForAttack.x);
     } else {
       let cellForAttack = cellsForAttack[parseInt(Math.random() * cellsForAttack.length)];
-      console.log(cellForAttack.x);
       attackResult = attack(rival, cellForAttack.y, cellForAttack.x);
     }
   }
@@ -23,25 +22,44 @@ function getRandomPoint(rival) {
   return point;
 }
 
-function getCellsForAttack(rival) {
-  let cellsForAttack = [];
-  for (const ship of rival.ships) {
+function getDamagedShipCells(ships) {
+  let shipCells = [];
+  for (const ship of ships) {
     if (!ship.isDead) {
-      for (const shipCell of ship.cells) {
-        if (shipCell.isHit) {
-          for (let y = shipCell.y - 1; y <= shipCell.y + 1; y++) {
-            for (let x = shipCell.x - 1; x <= shipCell.x + 1; x++) {
-              if (0 <= y && y <= 9 && 0 <= x && x <= 9) {
-                if (!rival.map.value[y][x].isHit) {
-                  cellsForAttack.push(rival.map.value[y][x]);
-                }
-              }
-            }
-          }
+      for (const cell of ship.cells) {
+        if (cell.isHit) {
+          shipCells.push(cell);
         }
       }
     }
   }
+  return shipCells;
+}
+
+function getCellsAroundDamagedCell(cell, rivalMapValue) {
+  let cellsAroundDamageCell = [];
+  for (let y = cell.y - 1; y <= cell.y + 1; y++) {
+    for (let x = cell.x - 1; x <= cell.x + 1; x++) {
+      if (0 <= y && y <= 9 && 0 <= x && x <= 9) {
+        if (!rivalMapValue[y][x].isHit) {
+          cellsAroundDamageCell.push(rivalMapValue[y][x]);
+        }
+      }
+    }
+  }
+  return cellsAroundDamageCell;
+}
+
+function getCellsForAttack(rival) {
+  let cellsForAttack = [];
+  const damagedShipCells = getDamagedShipCells(rival.ships);
+  if (damagedShipCells.length) {
+    for (const cell of damagedShipCells) {
+      cellsForAttack = cellsForAttack.concat(getCellsAroundDamagedCell(cell, rival.map.value));
+    }
+  }
+  console.log(cellsForAttack);
   return cellsForAttack;
 }
+
 export default computerHandler;
