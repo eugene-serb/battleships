@@ -6,7 +6,6 @@ import Player from '@/game/player.js';
 import Drawer from '@/game/drawer.js';
 import getMergedMap from '@/game/converter';
 import attack from '@/game/attack';
-import attack from '@/game/attack';
 import computerHandler from '@game/computerHandler';
 
 const userConfig = {
@@ -57,11 +56,9 @@ function draw() {
 function handle(x, y) {
   console.log('x', x);
   console.log('y', y);
-
+  computerHandler(player)
   attack(computer, y, x);
   userDrawer.draw(getMergedMap(player.map.value));
   rivalDrawer.draw(getMergedMap(computer.map.value));
   draw();
 }
-
-draw();
