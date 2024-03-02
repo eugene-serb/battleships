@@ -3,6 +3,8 @@
 import Player from './player';
 import Drawer from './drawer';
 import getMergedMap from './converter';
+import attack from './attack';
+import getRandomCellCoord from './getrandomcellcoord';
 
 class Gameloop {
   constructor(userField, rivalField, userConfig, rivalConfig) {
@@ -18,11 +20,13 @@ class Gameloop {
   start() {
     this.#playerInit();
     this.#drawerInit();
+
+    this.userMove = true
   }
 
   #playerInit() {
-    this.Player = new Player();
-    this.Opponent = new Player();
+    this.player = new Player();
+    this.opponent = new Player();
   }
 
   #drawerInit() {
@@ -30,13 +34,30 @@ class Gameloop {
     this.OpponentDrawer = new Drawer(this.rivalField, this.rivalConfig)
   }
 
-  draw(player, drawer) {
-    const dataMap = getMergedMap(player.map.value)
-    drawer.draw(dataMap)
+  draw() {
+    this.PlayerDrawer.draw(getMergedMap(this.player.map.value));
+    this.OpponentDrawer.draw(getMergedMap(this.opponent.map.value, true));
+  }
+
+  loop() {
+    let hit = true
+
+    while (hit) {
+      const target = this.userMove ? this.opponent : this.player
+
+      let pos = this.userMove ? this.eventHandler() : getRandomCellCoord(this.opponent)
+
+      hit = attack(target, pos[0], pos[1])
+
+      this.draw()
+    }
+
+      this.userMove = !this.userMove
   }
 
   eventHandler(x, y) {
     console.log(x, y);
+    return [y, x]
   }
 }
 
