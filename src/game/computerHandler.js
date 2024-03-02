@@ -1,5 +1,5 @@
 'use strict';
-import attack from '../game/attack';
+import attack from './/attack';
 
 function computerHandler(rival) {
   let attackResult = true;
