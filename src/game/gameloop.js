@@ -4,13 +4,14 @@ import Player from './player';
 import Drawer from './drawer';
 import getMergedMap from './converter';
 import attack from './attack';
-// import getRandomCellCoord from './getrandomcellcoord';
 import computerHandler from './computerHandler';
 
 class Gameloop {
-  constructor(userField, rivalField) {
+  constructor(userField, rivalField, restartButton) {
     this.userField = userField;
     this.rivalField = rivalField;
+
+    restartButton.addEventListener('click', this.init.bind(this));
 
     this.userConfig = {
       0: {
@@ -47,7 +48,6 @@ class Gameloop {
   init() {
     this.#playerInit();
     this.#drawerInit();
-    this.draw();
   }
 
   #playerInit() {
@@ -75,6 +75,7 @@ class Gameloop {
       console.log('противник проиграл');
       return;
     }
+
     if (!hit) {
       computerHandler(this.player);
       this.draw();
