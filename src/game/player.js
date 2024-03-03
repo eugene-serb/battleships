@@ -5,7 +5,6 @@ import Ship from '@/game/ship.js';
 
 class Player {
   constructor() {
-    this.count = 0;
     this.#init();
   }
 

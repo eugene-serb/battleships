@@ -7,21 +7,46 @@ import attack from './attack';
 import getRandomCellCoord from './getrandomcellcoord';
 
 class Gameloop {
-  constructor(userField, rivalField, userConfig, rivalConfig) {
-    this.userField = userField
-    this.rivalField = rivalField
+  constructor(userField, rivalField) {
+    this.userField = userField;
+    this.rivalField = rivalField;
 
-    this.userConfig = userConfig
-    this.rivalConfig = rivalConfig
+    this.userConfig = {
+      0: {
+        class: 'cell sea',
+      },
+      1: {
+        class: 'cell sea-hit',
+      },
+      2: {
+        class: 'cell ship',
+      },
+      3: {
+        class: 'cell ship-hit',
+      },
+    };
 
-    this.start();
+    this.rivalConfig = {
+      0: {
+        class: 'cell sea',
+        handle: this.eventHandler.bind(this),
+      },
+      1: {
+        class: 'cell sea-hit',
+      },
+      2: {
+        class: 'cell ship',
+      },
+      3: {
+        class: 'cell ship-hit',
+      },
+    };
   }
 
-  start() {
+  init() {
     this.#playerInit();
     this.#drawerInit();
-
-    this.userMove = true
+    this.draw();
   }
 
   #playerInit() {
@@ -30,8 +55,9 @@ class Gameloop {
   }
 
   #drawerInit() {
-    this.PlayerDrawer = new Drawer(this.userField, this.userConfig)
-    this.OpponentDrawer = new Drawer(this.rivalField, this.rivalConfig)
+    this.PlayerDrawer = new Drawer(this.userField, this.userConfig);
+    this.OpponentDrawer = new Drawer(this.rivalField, this.rivalConfig);
+    this.draw();
   }
 
   draw() {
@@ -39,27 +65,25 @@ class Gameloop {
     this.OpponentDrawer.draw(getMergedMap(this.opponent.map.value, true));
   }
 
-  loop() {
-    let hit = true
-
+  computerAttack() {
+    let hit = true;
     while (hit) {
-      const target = this.userMove ? this.opponent : this.player
-
-      let pos = this.userMove ? this.eventHandler() : getRandomCellCoord(this.opponent)
-
-      hit = attack(target, pos[0], pos[1])
-
-      this.draw()
+      const [y, x] = getRandomCellCoord(this.player);
+      hit = attack(this.player, y, x);
+      this.draw();
     }
-
-      this.userMove = !this.userMove
   }
 
   eventHandler(x, y) {
-    console.log(x, y);
-    return [y, x]
+    // console.log('2',this.player)
+    const hit = attack(this.opponent, y, x);
+
+    this.OpponentDrawer.draw(getMergedMap(this.opponent.map.value, true));
+
+    if (!hit) {
+      this.computerAttack();
+    }
   }
 }
 
-
-export default Gameloop
+export default Gameloop;
