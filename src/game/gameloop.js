@@ -66,25 +66,22 @@ class Gameloop {
     this.OpponentDrawer.draw(getMergedMap(this.opponent.map.value, true));
   }
 
-  computerAttack() {
-    let hit = true;
-    while (hit) {
-      const [y, x] = getRandomCellCoord(this.player);
-      hit = attack(this.player, y, x);
-
-    // computerHandler(this.player)
-    //   this.draw();
-    }
-  
-
   eventHandler(x, y) {
-    // console.log('2',this.player)
     const hit = attack(this.opponent, y, x);
 
     this.OpponentDrawer.draw(getMergedMap(this.opponent.map.value, true));
 
+    if (this.opponent.isLost()) {
+      console.log('противник проиграл');
+      return;
+    }
     if (!hit) {
-      this.computerAttack();
+      computerHandler(this.player);
+      this.draw();
+      if (this.player.isLost()) {
+        console.log('игрок проиграл');
+        return;
+      }
     }
   }
 }
