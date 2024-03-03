@@ -8,7 +8,7 @@ describe('Explode ship test', () => {
     const player = new Player();
 
     for (let ship of player.ships) {
-      explodeShip(player.map, ship);
+      explodeShip(player.map.value, ship);
     }
 
     const untouchedCellsCount = player.getUntouchedCells().length;
