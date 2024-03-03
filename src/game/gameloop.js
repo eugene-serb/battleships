@@ -4,7 +4,8 @@ import Player from './player';
 import Drawer from './drawer';
 import getMergedMap from './converter';
 import attack from './attack';
-import getRandomCellCoord from './getrandomcellcoord';
+// import getRandomCellCoord from './getrandomcellcoord';
+import computerHandler from './computerHandler';
 
 class Gameloop {
   constructor(userField, rivalField) {
@@ -70,9 +71,11 @@ class Gameloop {
     while (hit) {
       const [y, x] = getRandomCellCoord(this.player);
       hit = attack(this.player, y, x);
-      this.draw();
+
+    // computerHandler(this.player)
+    //   this.draw();
     }
-  }
+  
 
   eventHandler(x, y) {
     // console.log('2',this.player)
