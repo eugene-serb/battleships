@@ -12,6 +12,14 @@ button {
   padding: 10px;
 }
 
+.win-text {
+  display: flex;
+  justify-content: center;
+  gap: 150px;
+  margin-top: 50px;
+  font-size: 35px;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
