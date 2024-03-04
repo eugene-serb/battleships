@@ -28,7 +28,7 @@ class Gameloop {
     this.player = new Player();
     this.opponent = new Player();
   }
-  
+
   #configInit() {
     this.userConfig = structuredClone(this.config);
     this.rivalConfig = structuredClone(this.config);
@@ -74,7 +74,7 @@ class Gameloop {
       this.draw();
     }
 
-    this.checkEndgame()
+    this.checkEndgame();
   }
 }
 
