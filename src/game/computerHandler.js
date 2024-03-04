@@ -3,7 +3,7 @@ import attack from './/attack';
 
 function computerHandler(rival) {
   let attackResult = true;
-  while (attackResult) {
+  while (attackResult && checkAliveShip(rival.ships)) {
     const cellsForAttack = getCellsForAttack(rival);
     if (!cellsForAttack.length) {
       let cellForAttack = getRandomPoint(rival);
@@ -60,6 +60,17 @@ function getCellsForAttack(rival) {
   }
   console.log(cellsForAttack);
   return cellsForAttack;
+}
+
+function checkAliveShip(rivalShips) {
+  let aliveShip = false;
+  for (const ship of rivalShips) {
+    if (!ship.isDead) {
+      aliveShip = true;
+      break;
+    }
+  }
+  return aliveShip;
 }
 
 export default computerHandler;
