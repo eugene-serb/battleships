@@ -1,25 +1,19 @@
 'use strict';
-import attack from './/attack';
 
-function computerHandler(rival) {
-  let attackResult = true;
-  while (attackResult && checkAliveShip(rival.ships)) {
-    const cellsForAttack = getCellsForAttack(rival);
-    if (!cellsForAttack.length) {
-      let cellForAttack = getRandomPoint(rival);
-      attackResult = attack(rival, cellForAttack.y, cellForAttack.x);
-    } else {
-      let cellForAttack = cellsForAttack[parseInt(Math.random() * cellsForAttack.length)];
-      attackResult = attack(rival, cellForAttack.y, cellForAttack.x);
+import attack from '@/game/attack';
+
+function getCellsAroundDamagedCell(cell, rivalMapValue) {
+  let cellsAroundDamageCell = [];
+  for (let y = cell.y - 1; y <= cell.y + 1; y++) {
+    for (let x = cell.x - 1; x <= cell.x + 1; x++) {
+      if (0 <= y && y <= 9 && 0 <= x && x <= 9) {
+        if (!rivalMapValue[y][x].isHit) {
+          cellsAroundDamageCell.push(rivalMapValue[y][x]);
+        }
+      }
     }
   }
-  return false;
-}
-
-function getRandomPoint(rival) {
-  const points = rival.getUntouchedCells();
-  const point = points[parseInt(Math.random() * points.length)];
-  return point;
+  return cellsAroundDamageCell;
 }
 
 function getDamagedShipCells(ships) {
@@ -34,20 +28,6 @@ function getDamagedShipCells(ships) {
     }
   }
   return shipCells;
-}
-
-function getCellsAroundDamagedCell(cell, rivalMapValue) {
-  let cellsAroundDamageCell = [];
-  for (let y = cell.y - 1; y <= cell.y + 1; y++) {
-    for (let x = cell.x - 1; x <= cell.x + 1; x++) {
-      if (0 <= y && y <= 9 && 0 <= x && x <= 9) {
-        if (!rivalMapValue[y][x].isHit) {
-          cellsAroundDamageCell.push(rivalMapValue[y][x]);
-        }
-      }
-    }
-  }
-  return cellsAroundDamageCell;
 }
 
 function getCellsForAttack(rival) {
@@ -70,6 +50,27 @@ function checkAliveShip(rivalShips) {
     }
   }
   return aliveShip;
+}
+
+function getRandomPoint(rival) {
+  const points = rival.getUntouchedCells();
+  const point = points[parseInt(Math.random() * points.length)];
+  return point;
+}
+
+function computerHandler(rival) {
+  let attackResult = true;
+  while (attackResult && checkAliveShip(rival.ships)) {
+    const cellsForAttack = getCellsForAttack(rival);
+    if (!cellsForAttack.length) {
+      let cellForAttack = getRandomPoint(rival);
+      attackResult = attack(rival, cellForAttack.y, cellForAttack.x);
+    } else {
+      let cellForAttack = cellsForAttack[parseInt(Math.random() * cellsForAttack.length)];
+      attackResult = attack(rival, cellForAttack.y, cellForAttack.x);
+    }
+  }
+  return false;
 }
 
 export default computerHandler;
