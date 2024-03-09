@@ -4,55 +4,35 @@ import Player from './player';
 import Drawer from './drawer';
 import getMergedMap from './converter';
 import attack from './attack';
-// import getRandomCellCoord from './getrandomcellcoord';
 import computerHandler from './computerHandler';
 
 class Gameloop {
-  constructor(userField, rivalField) {
+  constructor(userField, rivalField, restartButton, textElement, config) {
     this.userField = userField;
     this.rivalField = rivalField;
+    this.textElement = textElement;
+    this.config = config;
 
-    this.userConfig = {
-      0: {
-        class: 'cell sea',
-      },
-      1: {
-        class: 'cell sea-hit',
-      },
-      2: {
-        class: 'cell ship',
-      },
-      3: {
-        class: 'cell ship-hit',
-      },
-    };
-
-    this.rivalConfig = {
-      0: {
-        class: 'cell sea',
-        handle: this.eventHandler.bind(this),
-      },
-      1: {
-        class: 'cell sea-hit',
-      },
-      2: {
-        class: 'cell ship',
-      },
-      3: {
-        class: 'cell ship-hit',
-      },
-    };
+    restartButton.addEventListener('click', this.init.bind(this));
   }
 
   init() {
     this.#playerInit();
+    this.#configInit();
     this.#drawerInit();
-    this.draw();
+
+    this.textElement.textContent = '';
   }
 
   #playerInit() {
     this.player = new Player();
     this.opponent = new Player();
+  }
+
+  #configInit() {
+    this.userConfig = structuredClone(this.config);
+    this.rivalConfig = structuredClone(this.config);
+    this.rivalConfig[0]['handle'] = this.eventHandler.bind(this);
   }
 
   #drawerInit() {
@@ -66,23 +46,35 @@ class Gameloop {
     this.OpponentDrawer.draw(getMergedMap(this.opponent.map.value, true));
   }
 
+  #showText(text) {
+    this.textElement.classList.add('win-text');
+    this.textElement.textContent = text;
+  }
+
+  checkEndgame() {
+    if (!(this.player.isLost() || this.opponent.isLost())) {
+      return;
+    }
+
+    let text = 'You ';
+    this.player.isLost() ? (text += 'lose!') : (text += 'won!');
+    this.#showText(text);
+
+    delete this.rivalConfig[0]['handle'];
+    this.draw();
+  }
+
   eventHandler(x, y) {
     const hit = attack(this.opponent, y, x);
 
     this.OpponentDrawer.draw(getMergedMap(this.opponent.map.value, true));
 
-    if (this.opponent.isLost()) {
-      console.log('противник проиграл');
-      return;
-    }
     if (!hit) {
       computerHandler(this.player);
       this.draw();
-      if (this.player.isLost()) {
-        console.log('игрок проиграл');
-        return;
-      }
     }
+
+    this.checkEndgame();
   }
 }
 
