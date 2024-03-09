@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Press Start 2P', cursive;
+  direction: ltr;
+  font-size: 10px;
+  line-height: 1.382em;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #000;
+  font-weight: 500;
+  margin-block-start: 0.382em;
+  margin-block-end: 0.618em;
+  line-height: 1.382em;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+h3 {
+  font-size: 1.17em;
+}
+
+h4 {
+  font-size: 1em;
+}
+
+h5 {
+  font-size: 0.83em;
+}
+
+h6 {
+  font-size: 0.67em;
+}
+
+button {
+  font-family: 'Press Start 2P', cursive;
+  padding: 10px;
+}
+
+.win-text {
+  display: flex;
+  justify-content: center;
+  gap: 150px;
+  margin-top: 50px;
+  font-size: 35px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.battlefields {
+  display: flex;
+  justify-content: center;
+  gap: 150px;
+  margin-top: 50px;
+}
+
+.field {
+  height: fit-content;
+  width: fit-content;
+  background-color: #000;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  border: 0.5px solid #000;
+}
+
+.cell {
+  height: 30px;
+  width: 30px;
+  border: 0.5px solid #000;
+}
+
+.sea {
+  background-color: rgb(255, 255, 255);
+}
+
+.ship {
+  background-color: rgb(110, 161, 244);
+}
+
+.sea-hit {
+  background-color: rgb(190, 190, 190);
+}
+
+.ship-hit {
+  background-color: rgb(255, 97, 97);
+}
+
+.rival-field .sea:hover {
+  background-color: #d3d3fe;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 5px;
+  margin-top: 35px;
+}
+
+.authors {
+  padding: 25px;
+}
