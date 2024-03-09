@@ -1,24 +1,15 @@
 'use strict';
 
-const cellNames = {
-  sea: {
-    0: 0,
-    1: 1,
-  },
-  ship: {
-    0: 2,
-    1: 3,
-  },
-};
+import { MAP_MERGE_CONFIG } from '@/game/constants/common';
 
-function getMergedMap(map, hidden = false) {
+export function getMergedMap(map, hidden = false) {
   const dataMap = [];
 
   for (let row of map) {
     const newRow = [];
 
     for (let cell of row) {
-      let value = cellNames[cell.type][Number(cell.isHit)];
+      let value = MAP_MERGE_CONFIG[cell.type][Number(cell.isHit)];
 
       if (hidden && value === 2) {
         value = 0;
@@ -32,5 +23,3 @@ function getMergedMap(map, hidden = false) {
 
   return dataMap;
 }
-
-export default getMergedMap;

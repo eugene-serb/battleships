@@ -1,6 +1,6 @@
 'use strict';
 
-import Player from '@/game/player';
+import Player from '@/game/models/player';
 
 describe('Player class test', () => {
   test('Player loses when all ships is dead', () => {

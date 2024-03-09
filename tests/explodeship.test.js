@@ -1,7 +1,7 @@
 'use strict';
 
-import explodeShip from '../src/game/explodeship';
-import Player from '../src/game/player';
+import Player from '@/game/models/player';
+import { explodeShip } from '@/game/attack';
 
 describe('Explode ship test', () => {
   test('correct number of live cells after hitting cells around all ships', () => {

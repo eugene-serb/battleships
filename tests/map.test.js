@@ -1,6 +1,6 @@
 'use strict';
 
-import Map from '@/game/map';
+import Map from '@/game/models/map';
 
 describe('Map test', () => {
   test('New map contains all rows and columns', () => {
