@@ -58,7 +58,6 @@ function getCellsForAttack(rival) {
       cellsForAttack = cellsForAttack.concat(getCellsAroundDamagedCell(cell, rival.map.value));
     }
   }
-  console.log(cellsForAttack);
   return cellsForAttack;
 }
 
