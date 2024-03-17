@@ -32,20 +32,6 @@ export function explodeShip(map, ship) {
   }
 }
 
-export function findShip(player, y, x) {
-  for (const ship of player.ships) {
-    if (!ship.isDead) {
-      for (const cell of ship.cells) {
-        if (y === cell.y && x === cell.x) {
-          return ship;
-        }
-      }
-    }
-  }
-
-  return null;
-}
-
 export function attack(player, y, x) {
   const cell = player.map.value[y][x];
   cell.isHit = true;
@@ -54,7 +40,7 @@ export function attack(player, y, x) {
     return false;
   }
 
-  const ship = findShip(player, y, x);
+  const ship = player.shipPointers.get(cell);
   const map = player.map.value;
 
   ship.checkHealth();

@@ -3,7 +3,7 @@
 import Player from '@/game/models/player';
 import Drawer from '@/game/drawer';
 import attack from '@/game/attack';
-import computerHandler from '@/game/computerHandler';
+import Computer from '@/game/computer';
 import { getMergedMap } from '@/game/utils/map';
 import {
   USER_FIELD_ID_SELECTOR,
@@ -38,16 +38,20 @@ class Gameloop {
 
     this.playerDrawer = new Drawer(this.userField, this.userConfig);
     this.opponentDrawer = new Drawer(this.rivalField, this.rivalConfig);
+
+    this.bot = new Computer(this.player);
   }
 
-  #draw() {
+  #draw(addEvent = true) {
+    const event = addEvent ? this.#eventHandler.bind(this) : undefined;
+
     this.playerDrawer.draw(getMergedMap(this.player.map.value));
-    this.opponentDrawer.draw(getMergedMap(this.opponent.map.value, true));
+    this.opponentDrawer.draw(getMergedMap(this.opponent.map.value, true), event);
   }
 
   #restart() {
     this.#init();
-    this.#draw();
+    this.#draw(true);
   }
 
   #showText(text) {
@@ -56,30 +60,31 @@ class Gameloop {
   }
 
   #checkEndgame() {
-    if (!(this.player.isLost() || this.opponent.isLost())) {
-      return;
-    }
-
-    const text = this.player.isLost() ? RIVAL_WIN_TEXT : PLAYER_WIN_TEXT;
-
-    this.#showText(text);
+    return this.player.isLost() || this.opponent.isLost();
   }
 
-  #eventHandler(x, y) {
-    if (this.endGame) {
-      return;
+  async #eventHandler(x, y) {
+    const attackResult = attack(this.opponent, y, x);
+
+    if (!attackResult) {
+      this.opponentDrawer.draw(getMergedMap(this.opponent.map.value, true));
+      let attackResult = false;
+      do {
+        await new Promise((r) => setTimeout(r, 500));
+        let [y, x] = this.bot.getAttackCoordinate();
+        attackResult = attack(this.player, y, x);
+        this.playerDrawer.draw(getMergedMap(this.player.map.value));
+      } while (attackResult);
     }
 
-    const hit = attack(this.opponent, y, x);
+    const gameOver = this.#checkEndgame();
 
-    this.opponentDrawer.draw(getMergedMap(this.opponent.map.value, true));
-
-    if (!hit) {
-      computerHandler(this.player);
+    if (gameOver) {
+      const text = this.player.isLost() ? RIVAL_WIN_TEXT : PLAYER_WIN_TEXT;
+      this.#showText(text);
     }
 
-    this.#checkEndgame();
-    this.#draw();
+    this.#draw(!gameOver);
   }
 
   #getDOM() {

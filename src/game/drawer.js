@@ -6,7 +6,7 @@ class Drawer {
     this.config = config;
   }
 
-  draw(map) {
+  draw(map, event) {
     this.container.innerHTML = '';
 
     for (let y = 0; y < map.length; y++) {
@@ -19,10 +19,8 @@ class Drawer {
           el.classList.add(className);
         });
 
-        const handle = this.config[cell].handle;
-
-        if (handle) {
-          el.addEventListener('click', () => handle(x, y));
+        if (!cell && event) {
+          el.addEventListener('click', () => event(x, y));
         }
 
         this.container.appendChild(el);
