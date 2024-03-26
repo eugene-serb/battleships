@@ -14,6 +14,7 @@ import {
   RIVAL_WIN_TEXT,
   DRAWER_CONFIG,
 } from '@/game/constants/common';
+import { getRandomNumber } from '@/game/utils/random';
 
 class Gameloop {
   constructor() {
@@ -27,6 +28,7 @@ class Gameloop {
     this.textElement.textContent = '';
 
     this.endGame = false;
+    this.playerMove = true;
 
     this.player = new Player();
     this.opponent = new Player();
@@ -34,7 +36,8 @@ class Gameloop {
     this.userConfig = structuredClone(DRAWER_CONFIG);
     this.rivalConfig = structuredClone(DRAWER_CONFIG);
 
-    this.rivalConfig[0].handle = this.#eventHandler.bind(this);
+    this.attackOpponentEvent = this.#eventHandler.bind(this);
+    this.#addEventToConfig(this.rivalConfig, 0, 'click', this.attackOpponentEvent);
 
     this.playerDrawer = new Drawer(this.userField, this.userConfig);
     this.opponentDrawer = new Drawer(this.rivalField, this.rivalConfig);
@@ -42,16 +45,14 @@ class Gameloop {
     this.bot = new Computer(this.player);
   }
 
-  #draw(addEvent = true) {
-    const event = addEvent ? this.#eventHandler.bind(this) : undefined;
-
+  #draw() {
     this.playerDrawer.draw(getMergedMap(this.player.map.value));
-    this.opponentDrawer.draw(getMergedMap(this.opponent.map.value, true), event);
+    this.opponentDrawer.draw(getMergedMap(this.opponent.map.value, true));
   }
 
   #restart() {
     this.#init();
-    this.#draw(true);
+    this.#draw();
   }
 
   #showText(text) {
@@ -63,28 +64,54 @@ class Gameloop {
     return this.player.isLost() || this.opponent.isLost();
   }
 
-  async #eventHandler(x, y) {
+  async #eventHandler(y, x) {
+    if (this.endGame || !this.playerMove) {
+      return;
+    }
+
     const attackResult = attack(this.opponent, y, x);
 
     if (!attackResult) {
-      this.opponentDrawer.draw(getMergedMap(this.opponent.map.value, true));
-      let attackResult = false;
+      this.playerMove = false;
+
+      this.opponentDrawer.draw(getMergedMap(this.opponent.map.value, true), false);
+      let compAttackResult = false;
+
       do {
-        await new Promise((r) => setTimeout(r, 500));
-        let [y, x] = this.bot.getAttackCoordinate();
-        attackResult = attack(this.player, y, x);
+        const delayTime = getRandomNumber(200, 1000);
+        await new Promise((r) => setTimeout(r, delayTime));
+
+        const [y, x] = this.bot.getAttackCoordinate();
+        compAttackResult = attack(this.player, y, x);
         this.playerDrawer.draw(getMergedMap(this.player.map.value));
-      } while (attackResult);
+      } while (compAttackResult && !this.#checkEndgame());
+
+      this.playerMove = true;
     }
 
-    const gameOver = this.#checkEndgame();
-
-    if (gameOver) {
-      const text = this.player.isLost() ? RIVAL_WIN_TEXT : PLAYER_WIN_TEXT;
-      this.#showText(text);
+    if (this.#checkEndgame()) {
+      const endgameMessage = this.player.isLost() ? RIVAL_WIN_TEXT : PLAYER_WIN_TEXT;
+      this.#showText(endgameMessage);
+      this.endGame = true;
     }
 
-    this.#draw(!gameOver);
+    this.#draw();
+  }
+
+  #addEventToConfig(config, cellType, eventType, event) {
+    if (!('events' in config[cellType])) {
+      config[cellType]['events'] = {};
+    }
+
+    config[cellType]['events'][eventType] = event;
+  }
+
+  #removeEventsFromConfig(config) {
+    for (const cellType in config) {
+      if ('events' in config[cellType]) {
+        delete config.cellType['events'];
+      }
+    }
   }
 
   #getDOM() {

@@ -2,6 +2,7 @@
 
 import Board from '@/game/models/map';
 import Ship from '@/game/models/ship';
+import { getRandomNumber } from '@/game/utils/random';
 
 class Player {
   constructor() {
@@ -66,10 +67,10 @@ class Player {
       let y, x, orientation;
 
       do {
-        orientation = parseInt(Math.random() * 2);
+        orientation = getRandomNumber(0, 2);
 
-        y = parseInt(Math.random() * 10);
-        x = parseInt(Math.random() * 10);
+        y = getRandomNumber(0, 10);
+        x = getRandomNumber(0, 10);
       } while (!this.validShipPosition(y, x, size, orientation));
 
       const ship = this.#createShip(y, x, size, orientation);

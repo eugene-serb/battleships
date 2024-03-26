@@ -24,7 +24,7 @@ export function explodeShip(map, ship) {
         let y = cell.y + dy;
         let x = cell.x + dx;
 
-        if (0 <= y && 0 <= x && y < 10 && x < 10 && map[y][x].type == 'sea') {
+        if (0 <= y && 0 <= x && y < 10 && x < 10 && map[y][x].type === 'sea') {
           map[y][x].isHit = true;
         }
       }
@@ -36,7 +36,7 @@ export function attack(player, y, x) {
   const cell = player.map.value[y][x];
   cell.isHit = true;
 
-  if (cell.type == 'sea') {
+  if (cell.type === 'sea') {
     return false;
   }
 

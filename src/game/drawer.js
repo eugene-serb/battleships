@@ -6,25 +6,35 @@ class Drawer {
     this.config = config;
   }
 
-  draw(map, event) {
+  draw(mergedMap) {
     this.container.innerHTML = '';
 
-    for (let y = 0; y < map.length; y++) {
-      for (let x = 0; x < map[y].length; x++) {
-        const cell = map[y][x];
+    for (let y = 0; y < mergedMap.length; y++) {
+      for (let x = 0; x < mergedMap[y].length; x++) {
+        const cellType = mergedMap[y][x];
 
-        const el = document.createElement('div');
+        const element = document.createElement('div');
 
-        this.config[cell].class.split(' ').forEach((className) => {
-          el.classList.add(className);
+        const classNames = this.config[cellType].class.split(' ');
+        classNames.forEach((className) => {
+          element.classList.add(className);
         });
 
-        if (!cell && event) {
-          el.addEventListener('click', () => event(x, y));
+        if (this.config[cellType].events) {
+          this.#addEvents(element, cellType, y, x);
         }
 
-        this.container.appendChild(el);
+        this.container.appendChild(element);
       }
+    }
+  }
+
+  #addEvents(element, cell, y, x) {
+    const events = this.config[cell].events;
+
+    for (const eventType in events) {
+      const handler = events[eventType];
+      element.addEventListener(eventType, () => handler(y, x));
     }
   }
 }

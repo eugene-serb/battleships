@@ -19,7 +19,7 @@ class Computer {
 
       const cell = getRandomElement(cells);
 
-      if (cell.type == 'ship') {
+      if (cell.type === 'ship') {
         const ship = this.opponent.shipPointers.get(cell);
         if (ship.cells.length > 1) {
           this.shipForAttack = ship;
@@ -113,7 +113,7 @@ class Computer {
           break;
         }
 
-        score += 2 ** step;
+        score += 1;
       }
     }
 
