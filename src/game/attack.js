@@ -24,7 +24,7 @@ export function explodeShip(map, ship) {
         let y = cell.y + dy;
         let x = cell.x + dx;
 
-        if (0 <= y && 0 <= x && y < 10 && x < 10 && map[y][x].type == 'sea') {
+        if (0 <= y && 0 <= x && y < 10 && x < 10 && map[y][x].type === 'sea') {
           map[y][x].isHit = true;
         }
       }
@@ -32,29 +32,15 @@ export function explodeShip(map, ship) {
   }
 }
 
-export function findShip(player, y, x) {
-  for (const ship of player.ships) {
-    if (!ship.isDead) {
-      for (const cell of ship.cells) {
-        if (y === cell.y && x === cell.x) {
-          return ship;
-        }
-      }
-    }
-  }
-
-  return null;
-}
-
 export function attack(player, y, x) {
   const cell = player.map.value[y][x];
   cell.isHit = true;
 
-  if (cell.type == 'sea') {
+  if (cell.type === 'sea') {
     return false;
   }
 
-  const ship = findShip(player, y, x);
+  const ship = player.shipPointers.get(cell);
   const map = player.map.value;
 
   ship.checkHealth();

@@ -2,7 +2,7 @@
 
 import Cell from '@/game/models/cell';
 
-class Map {
+class Board {
   constructor(width, height) {
     this.width = width;
     this.height = height;
@@ -28,4 +28,4 @@ class Map {
   }
 }
 
-export default Map;
+export default Board;

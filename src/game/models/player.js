@@ -1,7 +1,8 @@
 'use strict';
 
-import Map from '@/game/models/map';
+import Board from '@/game/models/map';
 import Ship from '@/game/models/ship';
+import { getRandomNumber } from '@/game/utils/random';
 
 class Player {
   constructor() {
@@ -31,7 +32,7 @@ class Player {
     const verticalSize = orientation ? size : 1;
     const horizontalSize = orientation ? 1 : size;
 
-    if (y + verticalSize > 9 || x + horizontalSize > 9) {
+    if (y + verticalSize > 10 || x + horizontalSize > 10) {
       return false;
     }
 
@@ -47,10 +48,6 @@ class Player {
   }
 
   #createShip(y, x, size, orientation) {
-    if (!this.validShipPosition(y, x, size, orientation)) {
-      return false;
-    }
-
     let shipCells = [];
 
     for (let i = 0; i < size; i++) {
@@ -60,32 +57,39 @@ class Player {
       orientation ? y++ : x++;
     }
 
-    const ship = new Ship(shipCells);
-    this.ships.push(ship);
-
-    return true;
+    return new Ship(shipCells);
   }
 
   #placeShipsRandomly() {
     const shipSizes = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
 
     for (let size of shipSizes) {
-      let shipCreated = false;
+      let y, x, orientation;
 
-      while (!shipCreated) {
-        const orient = parseInt(Math.random() * 2);
+      do {
+        orientation = getRandomNumber(0, 2);
 
-        const y = parseInt(Math.random() * 10);
-        const x = parseInt(Math.random() * 10);
+        y = getRandomNumber(0, 10);
+        x = getRandomNumber(0, 10);
+      } while (!this.validShipPosition(y, x, size, orientation));
 
-        shipCreated = this.#createShip(y, x, size, orient);
-      }
+      const ship = this.#createShip(y, x, size, orientation);
+
+      this.#addShipPointers(ship);
+      this.ships.push(ship);
+    }
+  }
+
+  #addShipPointers(ship) {
+    for (const cell of ship.cells) {
+      this.shipPointers.set(cell, ship);
     }
   }
 
   #init() {
-    this.map = new Map(10, 10);
+    this.map = new Board(10, 10);
     this.ships = [];
+    this.shipPointers = new Map();
 
     this.#placeShipsRandomly();
   }
