@@ -33,11 +33,12 @@ class Gameloop {
     this.player = new Player();
     this.opponent = new Player();
 
-    this.userConfig = structuredClone(DRAWER_CONFIG);
-    this.rivalConfig = structuredClone(DRAWER_CONFIG);
 
-    this.attackOpponentEvent = this.#eventHandler.bind(this);
-    this.#addEventToConfig(this.rivalConfig, 0, 'click', this.attackOpponentEvent);
+    this.userConfig = structuredClone(DRAWER_CONFIG);
+    this.#addEventToConfig(this.userConfig, 2, 'click', this.#eventTurnShip.bind(this))
+    
+    this.rivalConfig = structuredClone(DRAWER_CONFIG);
+    this.#addEventToConfig(this.rivalConfig, 0, 'click', this.#eventAttack.bind(this));
 
     this.playerDrawer = new Drawer(this.userField, this.userConfig);
     this.opponentDrawer = new Drawer(this.rivalField, this.rivalConfig);
@@ -64,7 +65,7 @@ class Gameloop {
     return this.player.isLost() || this.opponent.isLost();
   }
 
-  async #eventHandler(y, x) {
+  async #eventAttack(y, x) {
     if (this.endGame || !this.playerMove) {
       return;
     }
@@ -96,6 +97,53 @@ class Gameloop {
     }
 
     this.#draw();
+  }
+
+  async #eventTurnShip(y, x) {
+    const cell = this.player.map.value[y][x];
+
+    const ship = this.player.shipPointers.get(cell)
+    const shipCells = ship.cells
+    const shipSize = shipCells.length
+
+    if (shipSize === 1) {
+      return
+    }
+    
+    const firstCell = ship.cells[0]
+    const secondCell = ship.cells[1]
+
+    const reverseOrientation = (secondCell.y - firstCell.y) ? 0 : 1
+
+    changeCellsType(shipCells, 'sea')
+
+    if (this.player.validShipPosition(firstCell.y, firstCell.x, shipSize, reverseOrientation)) {
+      const newShip = this.player.createShip(firstCell.y, firstCell.x, shipSize, reverseOrientation)
+
+      ship.cells = newShip.cells
+
+      for (const shipCell of shipCells) {
+        this.player.shipPointers.delete(shipCell)
+      }
+
+      this.player.addShipPointers(newShip)
+
+      this.playerDrawer.draw(getMergedMap(this.player.map.value));
+    }
+
+    else {
+      changeCellsType(shipCells, 'ship')
+    }
+
+    function changeCellsType(cells, cellType) {
+      for (const cell of cells) {
+        cell.type = cellType
+      }
+    }
+
+    // function changeCellsBorderColor(Cells) {
+    //   return
+    // }
   }
 
   #addEventToConfig(config, cellType, eventType, event) {

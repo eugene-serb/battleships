@@ -47,7 +47,7 @@ class Player {
     return true;
   }
 
-  #createShip(y, x, size, orientation) {
+  createShip(y, x, size, orientation) {
     let shipCells = [];
 
     for (let i = 0; i < size; i++) {
@@ -73,14 +73,14 @@ class Player {
         x = getRandomNumber(0, 10);
       } while (!this.validShipPosition(y, x, size, orientation));
 
-      const ship = this.#createShip(y, x, size, orientation);
+      const ship = this.createShip(y, x, size, orientation);
 
-      this.#addShipPointers(ship);
+      this.addShipPointers(ship);
       this.ships.push(ship);
     }
   }
 
-  #addShipPointers(ship) {
+  addShipPointers(ship) {
     for (const cell of ship.cells) {
       this.shipPointers.set(cell, ship);
     }
