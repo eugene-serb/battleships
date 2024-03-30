@@ -3,7 +3,7 @@
 import Player from '@/game/models/player';
 import Drawer from '@/game/drawer';
 import attack from '@/game/attack';
-import computerHandler from '@/game/computerHandler';
+import Computer from '@/game/computer';
 import { getMergedMap } from '@/game/utils/map';
 import {
   USER_FIELD_ID_SELECTOR,
@@ -14,6 +14,7 @@ import {
   RIVAL_WIN_TEXT,
   DRAWER_CONFIG,
 } from '@/game/constants/common';
+import { getRandomNumber } from '@/game/utils/random';
 
 class Gameloop {
   constructor() {
@@ -27,6 +28,7 @@ class Gameloop {
     this.textElement.textContent = '';
 
     this.endGame = false;
+    this.playerMove = true;
 
     this.player = new Player();
     this.opponent = new Player();
@@ -34,10 +36,13 @@ class Gameloop {
     this.userConfig = structuredClone(DRAWER_CONFIG);
     this.rivalConfig = structuredClone(DRAWER_CONFIG);
 
-    this.rivalConfig[0].handle = this.#eventHandler.bind(this);
+    this.attackOpponentEvent = this.#eventHandler.bind(this);
+    this.#addEventToConfig(this.rivalConfig, 0, 'click', this.attackOpponentEvent);
 
     this.playerDrawer = new Drawer(this.userField, this.userConfig);
     this.opponentDrawer = new Drawer(this.rivalField, this.rivalConfig);
+
+    this.bot = new Computer(this.player);
   }
 
   #draw() {
@@ -56,30 +61,57 @@ class Gameloop {
   }
 
   #checkEndgame() {
-    if (!(this.player.isLost() || this.opponent.isLost())) {
-      return;
-    }
-
-    const text = this.player.isLost() ? RIVAL_WIN_TEXT : PLAYER_WIN_TEXT;
-
-    this.#showText(text);
+    return this.player.isLost() || this.opponent.isLost();
   }
 
-  #eventHandler(x, y) {
-    if (this.endGame) {
+  async #eventHandler(y, x) {
+    if (this.endGame || !this.playerMove) {
       return;
     }
 
-    const hit = attack(this.opponent, y, x);
+    const attackResult = attack(this.opponent, y, x);
 
-    this.opponentDrawer.draw(getMergedMap(this.opponent.map.value, true));
+    if (!attackResult) {
+      this.playerMove = false;
 
-    if (!hit) {
-      computerHandler(this.player);
+      this.opponentDrawer.draw(getMergedMap(this.opponent.map.value, true), false);
+      let compAttackResult = false;
+
+      do {
+        const delayTime = getRandomNumber(200, 1000);
+        await new Promise((r) => setTimeout(r, delayTime));
+
+        const [y, x] = this.bot.getAttackCoordinate();
+        compAttackResult = attack(this.player, y, x);
+        this.playerDrawer.draw(getMergedMap(this.player.map.value));
+      } while (compAttackResult && !this.#checkEndgame());
+
+      this.playerMove = true;
     }
 
-    this.#checkEndgame();
+    if (this.#checkEndgame()) {
+      const endgameMessage = this.player.isLost() ? RIVAL_WIN_TEXT : PLAYER_WIN_TEXT;
+      this.#showText(endgameMessage);
+      this.endGame = true;
+    }
+
     this.#draw();
+  }
+
+  #addEventToConfig(config, cellType, eventType, event) {
+    if (!('events' in config[cellType])) {
+      config[cellType]['events'] = {};
+    }
+
+    config[cellType]['events'][eventType] = event;
+  }
+
+  #removeEventsFromConfig(config) {
+    for (const cellType in config) {
+      if ('events' in config[cellType]) {
+        delete config.cellType['events'];
+      }
+    }
   }
 
   #getDOM() {
