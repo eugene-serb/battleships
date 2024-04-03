@@ -14,11 +14,14 @@ class Drawer {
         const cellType = mergedMap[y][x];
 
         const element = document.createElement('div');
-
         const classNames = this.config[cellType].class.split(' ');
         classNames.forEach((className) => {
           element.classList.add(className);
         });
+
+        if ([2, 3].includes(cellType)) {
+          this.#connectSameCells(y, x, cellType, mergedMap, element);
+        }
 
         if (this.config[cellType].events) {
           this.#addEvents(element, cellType, y, x);
@@ -35,6 +38,29 @@ class Drawer {
     for (const eventType in events) {
       const handler = events[eventType];
       element.addEventListener(eventType, () => handler(y, x));
+    }
+  }
+
+  #connectSameCells(y, x, cellType, mergedMap, element) {
+    const directionNames = { '0,1': 'Right', '0,-1': 'Left', '-1,0': 'Top', '1,0': 'Bottom' };
+    const directions = [
+      [0, 1],
+      [0, -1],
+      [1, 0],
+      [-1, 0],
+    ];
+
+    for (const [dy, dx] of directions) {
+      const posY = y + dy;
+      const posX = x + dx;
+      if (posY < 0 || posX < 0 || posY > 9 || posX > 9 || mergedMap[posY][posX] != cellType) {
+        continue;
+      }
+
+      const dirStr = `${dy},${dx}`;
+      const border = 'border' + directionNames[dirStr];
+
+      element.style[border] = 'hidden';
     }
   }
 }
