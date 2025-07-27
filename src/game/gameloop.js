@@ -106,14 +106,6 @@ class Gameloop {
     config[cellType]['events'][eventType] = event;
   }
 
-  #removeEventsFromConfig(config) {
-    for (const cellType in config) {
-      if ('events' in config[cellType]) {
-        delete config.cellType['events'];
-      }
-    }
-  }
-
   #getDOM() {
     this.userField = document.getElementById(USER_FIELD_ID_SELECTOR);
     this.rivalField = document.getElementById(RIVAL_FIELD_ID_SELECTOR);
