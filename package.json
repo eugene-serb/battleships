@@ -1,6 +1,6 @@
 {
   "name": "battleships",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Battleships game. Let's have a fun!",
   "keywords": [
     "battleships"
@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/eugene-serb/battleships/issues"
   },
-  "private": "true",
+  "private": true,
   "main": "index.js",
   "scripts": {
     "start": "webpack --mode development --watch",
